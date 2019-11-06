@@ -1,0 +1,10 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/todo_app/main"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffa947",
+    "navigationBarTitleText": "TODO"
+  }
+}
