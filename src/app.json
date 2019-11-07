@@ -1,7 +1,6 @@
 {
   "pages": [
-    "pages/index/main",
-    "pages/todo_app/main"
+    "pages/index/main"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffa947",

@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import Index from './index'
+import TodoApp from './index'
 
-const index = new Vue(Index)
+const todoApp = new Vue(TodoApp)
 
-index.$mount()
+todoApp.$mount()

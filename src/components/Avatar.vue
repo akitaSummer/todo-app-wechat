@@ -1,21 +1,20 @@
 <template>
-  <!--<div class="avatar" :class="{avatar_selected: !!selected}">-->
-  <div class="avatar">
+  <div class="avatar" :class="{avatar_selected: !!selected}">
     <div class="avatar_face">
       <img :src="userInfo.avatarUrl" alt="">
     </div>
-    <h2 class="avatar_name">Hello, {{userInfo.nickName}}</h2>
+    <h2 class="avatar_name" v-if="isShow">Hello, {{userInfo.nickName}}</h2>
+    <button class="no_avatar" v-else open-type="getUserInfo" @getuserinfo="handleClick">点此授权</button>
     <p class="avatar_tips">
       Looks like feed good.<br/>
-      <!--You have {{todayTasks.length}} tasks to do today-->
-      You have 7 tasks to do today
+      You have {{todayTasks.length}} tasks to do today
     </p>
     <p class="avatar_date">TODAY : {{today}}</p>
   </div>
 </template>
 
 <script>
-  // import {mapState, mapGetters} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
   export default {
     name: 'Avatar',
     props: {
@@ -24,11 +23,19 @@
       },
       userInfo: {
         type: Object
+      },
+      isShow: {
+        type: Boolean
       }
     },
     computed: {
-      // ...mapState(['selected']),
-      // ...mapGetters(['todayTasks'])
+      ...mapState(['selected']),
+      ...mapGetters(['todayTasks'])
+    },
+    methods: {
+      handleClick (data) {
+        this.$emit('scope', data)
+      }
     }
   }
 </script>
@@ -59,11 +66,22 @@
     }
   }
   .avatar_name {
+     margin-top: 32px;
+     padding: 0 6px;
+     font-size: 32px;
+     letter-spacing: 1px;
+     font-weight: 300;
+   }
+  .no_avatar {
     margin-top: 32px;
     padding: 0 6px;
-    font-size: 32px;
+    font-size: 22px;
     letter-spacing: 1px;
     font-weight: 300;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: transparent;
   }
   .avatar_tips {
     margin-top: 16px;

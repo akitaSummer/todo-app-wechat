@@ -1,26 +1,19 @@
 <template>
   <div class="gradient">
-    <div class="gradient_color" :class="{gradient_color_active: true}" :style="{backgroundImage: gradientColor}"></div>
+    <gradient-color v-for="(todo, index) in todos" :key="todo.name" :colors="todo.colors" :active="index == currentIndex"></gradient-color>
   </div>
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+  import GradientColor from './GradientColor'
   export default {
     name: 'Gradient',
-    props: {
-      colors: {
-        type: Array
-      },
-      index: {
-        type: Number
-      }
+    components: {
+      GradientColor
     },
     computed: {
-      gradientColor () {
-        const colorBotton = `color-stop(38%, ${this.colors[this.index][0]})`
-        const colorTop = `to(${this.colors[this.index][1]})`
-        return `-webkit-gradient(linear, left bottom, left top , ${colorBotton}, ${colorTop})`
-      }
+      ...mapState(['todos', 'currentIndex'])
     }
   }
 </script>
@@ -33,15 +26,5 @@
   left: 0;
   right: 0;
   z-index: -1;
-}
-.gradient_color{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.gradient_color_active {
-  opacity: 1;
 }
 </style>
