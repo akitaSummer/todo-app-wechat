@@ -3,7 +3,7 @@
     <avatar :today="today" :userInfo="userInfo" :isShow="isShow" @scope="getUserInfo"></avatar>
     <Gradient :todos="todos" :currentIndex="currentIndex"></Gradient>
     <div v-if="isShow">
-
+      <todo-list :todos="todos" :currentIndex="currentIndex"></todo-list>
     </div>
   </div>
 </template>
@@ -12,11 +12,13 @@
   import {mapState} from 'vuex'
   import Avatar from '../../components/Avatar'
   import Gradient from '../../components/Gradient'
+  import TodoList from '../../components/TodoList'
   export default {
     name: 'index',
     components: {
       Avatar,
-      Gradient
+      Gradient,
+      TodoList
     },
     data () {
       return {
@@ -55,7 +57,7 @@
       })
     },
     watch: {
-      currentIndex: () => {
+      currentIndex () {
         wx.setNavigationBarColor({
           frontColor: '#ffffff',
           backgroundColor: this.todos[this.currentIndex].colors[1],
@@ -78,5 +80,8 @@
     width: 100%;
     overflow: hidden;
     color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 </style>
