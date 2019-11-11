@@ -4,6 +4,7 @@
     <Gradient :todos="todos" :currentIndex="currentIndex"></Gradient>
     <div v-if="isShow">
       <todo-list :todos="todos" :currentIndex="currentIndex"></todo-list>
+      <TodoDetail></TodoDetail>
     </div>
   </div>
 </template>
@@ -13,12 +14,14 @@
   import Avatar from '../../components/Avatar'
   import Gradient from '../../components/Gradient'
   import TodoList from '../../components/TodoList'
+  import TodoDetail from '../../components/TodoDetail'
   export default {
     name: 'index',
     components: {
       Avatar,
       Gradient,
-      TodoList
+      TodoList,
+      TodoDetail
     },
     data () {
       return {
@@ -74,14 +77,11 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .home {
     height: 100%;
     width: 100%;
     overflow: hidden;
     color: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
   }
 </style>

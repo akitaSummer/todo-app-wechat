@@ -1,6 +1,6 @@
 <template>
   <div class="todo" :class="{todo_selected: selected}">
-    <div class="todo_head">
+    <div class="todo_head"  @click="handleClick">
       <div class="todo_icon" :style="{color}">
         <i :class="['fa', 'fa-'+todo.icon]"></i>
       </div>
@@ -49,6 +49,49 @@
         const colorBottom = `color-stop(30%, ${this.todo.colors[0]})`
         const colorTop = `to(${this.todo.colors[1]})`
         return `-webkit-gradient(linear, left bottom, right bottom, ${colorBottom}, ${colorTop})`
+      }
+    },
+    methods: {
+      handleClick () {
+        const query = wx.createSelectorQuery()
+        const appRect = {}
+        const elRect = {}
+        const rect = {}
+        const p1 = new Promise((resolve) => {
+          query.select('.home').boundingClientRect().exec((rect) => {
+            appRect.top = rect[0].top
+            appRect.left = rect[0].left
+            appRect.right = rect[0].right
+            appRect.bottom = rect[0].bottom
+            appRect.width = rect[0].width
+            appRect.height = rect[0].height
+            resolve()
+          })
+        })
+        p1.then(() => {
+          const p2 = new Promise((resolve) => {
+            query.select('.todo').boundingClientRect().exec((rect) => {
+              elRect.top = rect[1].top
+              elRect.left = rect[1].left
+              elRect.right = rect[1].right - rect[1].width
+              elRect.bottom = rect[1].bottom - rect[1].height
+              elRect.width = rect[1].width
+              elRect.height = rect[1].height
+              resolve()
+            })
+          })
+          p2.then(() => {
+            rect.top = elRect.top - appRect.top
+            rect.left = elRect.left - appRect.left
+            rect.right = elRect.right
+            rect.bottom = elRect.bottom
+            rect.width = elRect.width
+            rect.height = elRect.height
+            rect.appWidth = appRect.width
+            rect.appHeight = appRect.height
+            this.$emit('select', {rect, todo: this.todo})
+          })
+        })
       }
     }
   }

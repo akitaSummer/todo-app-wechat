@@ -35,7 +35,6 @@
     computed: {
       ...mapState(['selected', 'currentIndex']),
       translate () {
-        console.log(1)
         return 'translate3d(-' + (this.currentIndex * 100) + '%, 0, 0)'
       }
     },
@@ -57,6 +56,11 @@
         } else {
           this.prevTodo()
         }
+      }
+    },
+    watch: {
+      selected (newVal) {
+        console.log(newVal)
       }
     }
   }

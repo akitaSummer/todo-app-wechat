@@ -39,7 +39,7 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
-  #app {
+  page {
     height: 100%;
     overflow: hidden;
   }
