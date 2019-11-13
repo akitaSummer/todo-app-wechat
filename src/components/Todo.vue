@@ -17,11 +17,34 @@
         </span>
         <span class="todo_progress_num">{{progress}}</span>
       </div>
+      <scroll-view scroll-y="true" :style="{height: taskHeight}">
+        <div class="todo_tasks">
+        <h4 class="todo_subtitle" v-if="todayTasks.length">Today</h4>
+        <ul>
+          <li v-for="task in todayTasks" :key="task.id">
+            <task :task="task"></task>
+          </li>
+        </ul>
+        <h4 class="todo_subtitle" v-if="tomorrowTasks.length">Tomorrow</h4>
+        <ul>
+          <li v-for="task in tomorrowTasks" :key="task.id">
+            <task :task="task"></task>
+          </li>
+        </ul><h4 class="todo_subtitle" v-if="outdatedTasks.length">Outdated</h4>
+        <ul>
+          <li v-for="task in outdatedTasks" :key="task.id">
+            <task :task="task"></task>
+          </li>
+        </ul>
+        </div>
+      </scroll-view>
     </div>
   </div>
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+  import Task from './Task'
   export default {
     name: 'Todo',
     props: {
@@ -33,7 +56,16 @@
         type: Boolean
       }
     },
+    components: {
+      Task
+    },
+    data () {
+      return {
+        taskHeight: 0
+      }
+    },
     computed: {
+      ...mapState(['today', 'tomorrow']),
       color () {
         return this.todo.colors[0]
       },
@@ -49,6 +81,21 @@
         const colorBottom = `color-stop(30%, ${this.todo.colors[0]})`
         const colorTop = `to(${this.todo.colors[1]})`
         return `-webkit-gradient(linear, left bottom, right bottom, ${colorBottom}, ${colorTop})`
+      },
+      todayTasks () {
+        return this.todo.tasks.filter(task => {
+          return task.date >= this.today && task.date < this.tomorrow
+        })
+      },
+      tomorrowTasks () {
+        return this.todo.tasks.filter(task => {
+          return task.date >= this.tomorrow
+        })
+      },
+      outdatedTasks () {
+        return this.todo.tasks.filter(task => {
+          return task.date < this.today
+        })
       }
     },
     methods: {
@@ -93,6 +140,16 @@
           })
         })
       }
+    },
+    mounted () {
+      const p = new Promise((resolve) => {
+        wx.createSelectorQuery().select('.home').boundingClientRect().exec((rect) => {
+          resolve(rect[0].height - 200 + 'px')
+        })
+      })
+      p.then((height) => {
+        this.taskHeight = height
+      })
     }
   }
 </script>
@@ -156,10 +213,19 @@
     div {
       dispaly: block;
       height: 100%;
-      transition: all 0.3s ease;
+      transition: all .3s ease;
     }
   }
   .todo_progress_num {
     font-size: 12px;
+  }
+  .todo_tasks {
+    opacity: 0;
+    transform: scale3d(1, 0, 1);
+  }
+  .todo_subtitle {
+    margin-top: 32px;
+    mrigin-botton: 8px;
+    color: #999;
   }
 </style>

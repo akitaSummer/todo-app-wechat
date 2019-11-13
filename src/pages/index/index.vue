@@ -6,6 +6,8 @@
       <todo-list :todos="todos" :currentIndex="currentIndex"></todo-list>
       <TodoDetail></TodoDetail>
     </div>
+    <floating-button btnType="add"></floating-button>
+    <floating-button btnType="back"></floating-button>
   </div>
 </template>
 
@@ -15,13 +17,15 @@
   import Gradient from '../../components/Gradient'
   import TodoList from '../../components/TodoList'
   import TodoDetail from '../../components/TodoDetail'
+  import FloatingButton from '../../components/FloatingButton'
   export default {
     name: 'index',
     components: {
       Avatar,
       Gradient,
       TodoList,
-      TodoDetail
+      TodoDetail,
+      FloatingButton
     },
     data () {
       return {

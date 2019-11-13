@@ -24,6 +24,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "better-scroll": "^1.15.2",
     "mpvue": "^2.0.0",
     "vuex": "^3.0.1"
   },

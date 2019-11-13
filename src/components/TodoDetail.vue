@@ -91,6 +91,10 @@
       .todo_body {
         transform: translate3d(0, 44px, 0);
       }
+      .todo_tasks {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+      }
     }
   }
 </style>
