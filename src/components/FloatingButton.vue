@@ -5,7 +5,7 @@
       v-if="!!selected"
       :class="{ 'floating-button_editing': !!editing,  'floating-button-add': btnType === 'add', 'floating-button-back': btnType === 'back'}"
       :style="{ background: gradientColor }"
-      @click="btnType === 'back'? $store.commit('unselectTodo') : $store.commit('toggleEditing')"
+      @click="btnClick"
     ></button>
   </div>
 </template>
@@ -19,7 +19,7 @@
       }
     },
     computed: {
-      ...mapState(['selected', 'editing']),
+      ...mapState(['selected', 'editing', 'todos', 'currentIndex']),
       ...mapGetters(['currentTodo']),
       gradientColor () {
         const colorLeft = `color-stop(30%, ${this.currentTodo.colors[0]})`
@@ -28,7 +28,27 @@
       }
     },
     methods: {
-      ...mapMutations(['toggleEditing', 'unselectTodo'])
+      ...mapMutations(['toggleEditing', 'unselectTodo']),
+      btnClick () {
+        if (this.btnType === 'back' && !this.editing) {
+          this.$store.commit('unselectTodo')
+          wx.setNavigationBarColor({
+            frontColor: '#ffffff',
+            backgroundColor: this.todos[this.currentIndex].colors[1],
+            animation: {
+              duration: 500,
+              timingFunc: 'ease'
+            },
+            fail: (error) => {
+              console.log(error)
+            }
+          })
+        } else if (this.btnType === 'back') {
+          this.$store.commit('toggleEditing')
+        } else {
+          this.$store.commit('toggleEditing')
+        }
+      }
     }
   }
 </script>

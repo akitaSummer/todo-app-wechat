@@ -17,8 +17,7 @@
         </span>
         <span class="todo_progress_num">{{progress}}</span>
       </div>
-      <scroll-view scroll-y="true" :style="{height: taskHeight}">
-        <div class="todo_tasks">
+      <scroll-view class="todo_tasks" scroll-y="true" :style="{height: taskHeight}">
         <h4 class="todo_subtitle" v-if="todayTasks.length">Today</h4>
         <ul>
           <li v-for="task in todayTasks" :key="task.id">
@@ -36,7 +35,6 @@
             <task :task="task"></task>
           </li>
         </ul>
-        </div>
       </scroll-view>
     </div>
   </div>
@@ -222,6 +220,7 @@
   .todo_tasks {
     opacity: 0;
     transform: scale3d(1, 0, 1);
+    margin: 10px;
   }
   .todo_subtitle {
     margin-top: 32px;

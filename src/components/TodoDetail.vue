@@ -1,7 +1,7 @@
 <template>
   <div class="show" :class="{'show-enter-to': selected === null}" :style="{top: top +'px', left: left + 'px', width: width + 'px', height: height + 'px'}">
-    <div class="todo-detail" v-if="selected">
-      <todo :todo="selected.todo"></todo>
+    <div class="todo-detail" v-if="flag">
+      <todo v-if="selected" :todo="selected.todo"></todo>
     </div>
   </div>
 </template>
@@ -19,7 +19,8 @@
         top: 225,
         left: 40,
         width: 295,
-        height: 350
+        height: 350,
+        flag: false
       }
     },
     computed: {
@@ -41,6 +42,18 @@
             this.width = `${newVal.rect.appWidth}`
             this.height = `${newVal.rect.appHeight}`
           }, 0)
+          this.flag = true
+          wx.setNavigationBarColor({
+            frontColor: '#000000',
+            backgroundColor: '#ffffff',
+            animation: {
+              duration: 500,
+              timingFunc: 'ease'
+            },
+            fail: (error) => {
+              console.log(error)
+            }
+          })
         }
       },
       unselect (newVal) {
@@ -50,11 +63,14 @@
           this.width = `${newVal.rect.appWidth}`
           this.height = `${newVal.rect.appHeight}`
           setTimeout(() => {
-            this.top = `${newVal.rect.top}`
-            this.left = `${newVal.rect.left}`
+            this.top = 225
+            this.left = 40
             this.width = `${newVal.rect.width}`
             this.height = `${newVal.rect.height}`
           }, 0)
+          setTimeout(() => {
+            this.flag = false
+          }, 500)
         }
       }
     }

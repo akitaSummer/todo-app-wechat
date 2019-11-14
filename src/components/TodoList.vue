@@ -57,11 +57,6 @@
           this.prevTodo()
         }
       }
-    },
-    watch: {
-      selected (newVal) {
-        console.log(newVal)
-      }
     }
   }
 </script>
